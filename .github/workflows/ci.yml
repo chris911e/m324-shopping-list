@@ -1,0 +1,94 @@
+name: CI Pipeline
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Set up node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.18.0' # Specify the Node.js version you want to use
+ 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+ 
+      - name: Install dependencies
+        run: npm install
+  linter:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+ 
+      - name: see directories
+        run: | 
+          cd node_modules
+          ls -la
+ 
+      - name: Lint code
+        run: npm run lint
+ 
+  testing:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+ 
+      - name: Run tests
+        run: npm run test
+ 
+  build:
+    needs: [linter, testing]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Set up node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.18.0' # Specify the Node.js version you want to use
+ 
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+ 
+      - name: Build application
+        run: npm run build
+        # with:
+        #   npm-version: '9.8.1'
