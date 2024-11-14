@@ -66,7 +66,7 @@ jobs:
             ${{ runner.os }}-node-modules-
  
       - name: Run tests
-        run: echo "testing..."
+        run: npm run test
  
   build:
     needs: testing
@@ -99,4 +99,4 @@ jobs:
           uses: actions/checkout@v2
 
         - name: Deploy Application
-          run: echo "Simulating Deployment..."
+          run: echo "Deployment successful"

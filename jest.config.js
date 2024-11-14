@@ -147,6 +147,11 @@ const config = {
   // The test environment that will be used for testing
   testEnvironment: "jsdom",
 
+
+  moduleNameMapper: {
+    '\\.module\\.css$': 'identity-obj-proxy',
+  },
+
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
 
