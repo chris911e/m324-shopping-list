@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import styles from './Header.module.css';
+import classes from './Header.module.css';
 
 export default function Header() {
   return (
-    <header className={styles.header}>
-      <div className={styles.logo}>
+    <header className={classes.header}>
+      <div className={classes.logo}>
         <Link href="/">Einkaufsliste App</Link>
       </div>
-      <nav className={styles.nav}>
+      <nav className={classes.nav}>
         <ul>
           <li>
             <Link href="/register">Neue Liste erstellen</Link>
